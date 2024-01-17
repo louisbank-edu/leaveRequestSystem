@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <h1>Leave Request</h1>
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Reason</th>
+            <th>Leave Start</th>
+            <th>Leave End</th>
+            <th>Delete</th>
+        </tr>
+        {% for leave in leaves %}
+        <tr>
+            <td>{{ leave.user_id }}</td>
+            <td>
+                {% if leave.user_id == session.get('user_id') %}
+                {{ leave.reason }}
+                {% else %}
+                Confidential
+                {% endif %}
+            </td>
+            <td>{{ leave.date_start.date() }}</td>
+            <td>{{ leave.date_end.date() }}</td>
+            <td>
+                <a href="/delete/{{ leave.id }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form action="" method="post">
+        <input type="text" name="reason" id="reason" placeholder="State your reason">
+        <input type="date" name="date_start" id="date_start">
+        <input type="date" name="date_end" id="date_end">
+
+        <input type="submit" value="Request Leave">
+    </form>
+</div>
+{% endblock %}
